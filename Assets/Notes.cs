@@ -10,53 +10,66 @@ public class Notes : MonoBehaviour
     public GameObject goddess;
     float speed;
     Rigidbody2D rb;
-    void Awake()
+    public GameObject particle;
+    void Start()
     {
-        speed = GameEngine.instance.NoteSpeed();
         rb = GetComponent<Rigidbody2D>();
-        
+        speed = GameEngine.instance.NoteSpeed();
+
+        if (transform.position.x > 0)
+        {
+             rb.velocity = new Vector2(-speed * 5, 0);
+        }
+        else if (transform.position.x<0)
+        {
+             rb.velocity = new Vector2(speed * 5, 0);
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 
     void Update()
-    {
-        if (GameEngine.instance.gameStarted)
-        {
-            rb.position = Vector2.MoveTowards(transform.position, goddess.transform.position, speed*Time.deltaTime);
-        }
+    {   
 
 
         if (canBePressed)
         {
             if(Input.GetKeyDown(keyToPress))
             {
-                Destroy(gameObject);
+                GameEngine.instance.PlayerCanMove();                
                 keyDestored = true;
-                GameEngine.instance.PlayerCanMove();
+                GameEngine.instance.ActivateNoteParticle(GetComponent<SpriteRenderer>().color);
+                Destroy(gameObject);
+                GameEngine.instance.specialSpellCombo++;
             }
         }
     }
+    
+        
+    
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag=="Goddess")
+       
+        if (collision.tag=="Goddess")
         {
             canBePressed = true;
+            GameEngine.instance.EnemyCanMove();
         }
     }
 
-    void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.tag=="Goddess")
+        if (collision.tag=="Goddess")
         {
-            StartCoroutine(NoteMissed());
+            if(!keyDestored)
+            {
+                GameEngine.instance.PlayerCantMove();
+                Destroy(gameObject);
+                GameEngine.instance.specialSpellCombo = 0;
+                
+            }
         }
-    }
-    IEnumerator NoteMissed()
-    {
-        yield return new WaitForSeconds(0.3f);
-        if(!keyDestored)
-        {
-            GameEngine.instance.PlayerCantMove();
-            Destroy(gameObject);
-        }
-    }
+    }   
 }

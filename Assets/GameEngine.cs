@@ -9,53 +9,56 @@ public class GameEngine : MonoBehaviour
     public GameObject goddess;
     public GameObject note;
     public GameObject[] notes;
-    bool canSpawn = false;
     public bool canMove = false;
+    public bool enemyCanMove = false;
     public float bpm;
     public float tempo;
+    public float frameFix;
     public bool gameStarted = false;
-    void Awake()
+
+    public int specialSpellCombo;
+    public GameObject particlePrefab;
+
+    public Camera cam;
+    public GameObject player;
+
+    public Transform[] spawnPos;
+
+    void Start()
     {
         instance = this;
-        canSpawn = true;
 
-        tempo = bpm / 60;
+        
+        tempo = (60f / bpm);
 
     }
 
     void Update()
     {
-        print(tempo*Time.deltaTime);
+        cam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y,-10);
         if (!gameStarted)
         {
             if(Input.anyKeyDown)
             {
                 gameStarted = true;
                 myAudioSource.Play();
+                InvokeRepeating("SpawnNote", 0f, tempo);
+                FindObjectOfType<GhostBoss>().GetComponent<GhostBoss>().StartSummonning();
             }
-        }
-        else
-        {
-            if(canSpawn)
-            {
-                GameObject notes = Instantiate(RandomNote(), goddess.transform.position+new Vector3( tempo *4f,0,0), Quaternion.identity);
-                StartCoroutine(CanSpawn());
-            }
-            
         }
     }
-    IEnumerator CanSpawn()
+
+    void SpawnNote()
     {
-        canSpawn = false;
-        yield return new WaitForSeconds(tempo*Time.fixedDeltaTime*8);
-        canSpawn = true;
-
+        GameObject notes = Instantiate(RandomNote(), spawnPos[Random.Range(0,spawnPos.Length)].position, Quaternion.identity); 
     }
-
+    
+    
     public float NoteSpeed()
     {
         return tempo;
     }
+
     public GameObject RandomNote()
     {
         var i = Random.Range(0, 4);
@@ -66,10 +69,46 @@ public class GameEngine : MonoBehaviour
     {
         canMove = false;
     }
+
     public void PlayerCanMove()
     {
         canMove = true;
+        
     }
-   
-
+    public void EnemyCanMove()
+    {
+        enemyCanMove = true;
+    }
+    public void EnemyCantMove()
+    {
+        enemyCanMove = false;
+    }
+    public Vector3 EnemyMove()
+    {
+        var i = Random.Range(0, 101);
+        Vector3 randomMove = Vector3.zero;
+        if (i < 25)
+        {
+            randomMove = new Vector3(0, 1, 0);
+        }
+        else if (i < 50)
+        {
+            randomMove = new Vector3(1, 0, 0);
+        }
+        else if (i < 75)
+        {
+            randomMove = new Vector3(0, -1, 0);
+        }
+        else if (i < 100)
+        {
+            randomMove = new Vector3(-1, 1, 0);
+        }
+        return randomMove;
+    }
+    public void ActivateNoteParticle(Color color)
+    {
+        particlePrefab.GetComponent<ParticleSystem>().startColor = color;
+        GameObject particle = Instantiate(particlePrefab, goddess.transform.position, Quaternion.identity);
+        Destroy(particle, 2f);
+    }
 }

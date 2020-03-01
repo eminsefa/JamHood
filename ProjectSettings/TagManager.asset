@@ -17,7 +17,7 @@ TagManager:
   - Notes
   - Goddess
   - Player
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -59,4 +59,7 @@ TagManager:
     locked: 0
   - name: Notes
     uniqueID: 159132567
+    locked: 0
+  - name: Notes Arrow
+    uniqueID: 3737153057
     locked: 0

@@ -4,48 +4,97 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    float duration;
-    float elapsedTime = 1;
+    public GameObject specialSpellParticle;
     void Start()
     {
-        duration= GameEngine.instance.tempo/4; 
-        transform.position = new Vector2(2.5f , 0.5f);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        elapsedTime += 1 * Time.deltaTime;
-
-
-        if (GameEngine.instance.canMove && elapsedTime>duration)
+        if (GameEngine.instance.canMove)
         {
-            Move();
-
+            if (GameEngine.instance.specialSpellCombo >= 5)
+            {
+                SpecialAttack();
+                
+            }
+            else
+            {
+                Move();
+            }
         }
-        
+
     }
     void Move()
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
-            transform.position += new Vector3(1f, 0, 0);
-            elapsedTime = 0;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 1f, LayerMask.GetMask("Enemy"));
+            if (hit.collider != null)
+            {
+                Destroy(hit.collider.gameObject);
+            }
+            else
+            {
+                transform.position += new Vector3(1f, 0, 0);
+                GameEngine.instance.PlayerCantMove();
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+
+
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            transform.position += new Vector3(0, -1f, 0);
-            elapsedTime = 0;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Enemy"));
+            if (hit.collider != null)
+            {
+                Destroy(hit.collider.gameObject);
+            }
+            else
+            {
+                transform.position += new Vector3(0, -1f, 0);
+                GameEngine.instance.PlayerCantMove();
+            }
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            transform.position += new Vector3(-1f, 0, 0);
-            elapsedTime = 0;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left, 1f, LayerMask.GetMask("Enemy"));
+            if (hit.collider != null)
+            {
+                Destroy(hit.collider.gameObject);
+            }
+            else
+            {
+                transform.position += new Vector3(-1f, 0, 0);
+                transform.localRotation = Quaternion.Euler(0, 180, 0);
+                GameEngine.instance.PlayerCantMove();
+            }                   
+        
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            transform.position += new Vector3(0, 1f, 0);
-            elapsedTime = 0;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 1f, LayerMask.GetMask("Enemy"));
+            if (hit.collider != null)
+            {
+                Destroy(hit.collider.gameObject);
+            }
+            else
+            {
+                transform.position += new Vector3(0, 1f, 0);
+                GameEngine.instance.PlayerCantMove();
+            }
+            
         }
+    }
+    void SpecialAttack()
+    {
+        GameEngine.instance.specialSpellCombo = 0;
+        GameObject particle = Instantiate(specialSpellParticle, transform.position, Quaternion.identity);
+        Destroy(particle, 2f);
+        foreach (Collider2D collider in Physics2D.OverlapBoxAll(transform.position, 2 * Vector2.one, 0f, LayerMask.GetMask("Enemy")))
+        {
+            Destroy(collider.gameObject);
+        }
+
     }
 }
