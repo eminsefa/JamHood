@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 872421662385354375}
   - component: {fileID: 872421662385354374}
   - component: {fileID: 872421662385354373}
+  - component: {fileID: -6833701398086932943}
+  - component: {fileID: 365446230596924215}
   m_Layer: 11
   m_Name: GhostBoss
   m_TagString: Untagged
@@ -129,3 +131,44 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-6833701398086932943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872421662385354369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ae1941518d2b94e8b3d431d330066c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shrines:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemies:
+  - {fileID: 6214570283518236570, guid: ab62584e3b8bf9c41a44c385ec162c08, type: 3}
+  - {fileID: 4449580098422268365, guid: fecfa8c1e9ec6ed438275f9e7ee2d751, type: 3}
+  attackMode: 0
+--- !u!50 &365446230596924215
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872421662385354369}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

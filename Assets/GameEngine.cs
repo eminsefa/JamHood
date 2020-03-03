@@ -24,13 +24,17 @@ public class GameEngine : MonoBehaviour
 
     public Transform[] spawnPos;
 
-    void Start()
+    void Awake()
     {
         instance = this;
 
         
         tempo = (60f / bpm);
 
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        print("asd");
     }
 
     void Update()
@@ -77,31 +81,43 @@ public class GameEngine : MonoBehaviour
     }
     public void EnemyCanMove()
     {
-        enemyCanMove = true;
+           enemyCanMove = true;
+        Enemy[] scripts = FindObjectsOfType<Enemy>();
+        GameObject[] enemies = new GameObject[scripts.Length];
+        for (int i = 0; i< enemies.Length; i++)
+        {
+            enemies[i] = scripts[i].gameObject;
+
+            enemies[i].GetComponent<Rigidbody2D>().velocity += EnemyMove();
+        }
+       
+        EnemyCantMove();
     }
+    
     public void EnemyCantMove()
     {
         enemyCanMove = false;
+        
     }
-    public Vector3 EnemyMove()
+    public Vector2 EnemyMove()
     {
-        var i = Random.Range(0, 101);
-        Vector3 randomMove = Vector3.zero;
+        var i = Random.Range(0, 100);
+        Vector2 randomMove = Vector2.zero;
         if (i < 25)
         {
-            randomMove = new Vector3(0, 1, 0);
+            randomMove = new Vector2(0, 1);
         }
         else if (i < 50)
         {
-            randomMove = new Vector3(1, 0, 0);
+            randomMove = new Vector2(1, 0);
         }
         else if (i < 75)
         {
-            randomMove = new Vector3(0, -1, 0);
+            randomMove = new Vector2(0, -1);
         }
         else if (i < 100)
         {
-            randomMove = new Vector3(-1, 1, 0);
+            randomMove = new Vector2(-1, 1);
         }
         return randomMove;
     }

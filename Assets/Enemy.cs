@@ -12,10 +12,10 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if(GameEngine.instance.enemyCanMove)
-        {
-            transform.position+=GameEngine.instance.EnemyMove();
-            GameEngine.instance.EnemyCantMove();
-        }
+      
+    }
+    public void Move()
+    {
+        
     }
 }

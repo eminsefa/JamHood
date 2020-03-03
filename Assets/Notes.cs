@@ -55,7 +55,7 @@ public class Notes : MonoBehaviour
         if (collision.tag=="Goddess")
         {
             canBePressed = true;
-            GameEngine.instance.EnemyCanMove();
+            
         }
     }
 
@@ -65,6 +65,7 @@ public class Notes : MonoBehaviour
         {
             if(!keyDestored)
             {
+                GameEngine.instance.EnemyCanMove();
                 GameEngine.instance.PlayerCantMove();
                 Destroy(gameObject);
                 GameEngine.instance.specialSpellCombo = 0;

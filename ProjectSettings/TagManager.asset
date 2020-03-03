@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Goddess
+  - Sword
+  - Rapier
+  - Dagger
+  - Axe
+  - LevelChanger
+  - Border
   layers:
   - Default
   - TransparentFX
@@ -18,9 +24,9 @@ TagManager:
   - Goddess
   - Player
   - Enemy
-  - 
-  - 
-  - 
+  - Weapon
+  - LevelChanger
+  - Borders
   - 
   - 
   - 
@@ -54,12 +60,12 @@ TagManager:
   - name: Canvas
     uniqueID: 2396286167
     locked: 0
-  - name: Goddess
-    uniqueID: 3106491003
-    locked: 0
   - name: Notes
     uniqueID: 159132567
     locked: 0
   - name: Notes Arrow
     uniqueID: 3737153057
+    locked: 0
+  - name: Goddess
+    uniqueID: 3106491003
     locked: 0

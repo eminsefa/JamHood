@@ -64,10 +64,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Enemy.cs" />
+    <Compile Include="Assets\EnemySpawner.cs" />
     <Compile Include="Assets\GameEngine.cs" />
     <Compile Include="Assets\GhostBoss.cs" />
+    <Compile Include="Assets\MenuController.cs" />
     <Compile Include="Assets\Notes.cs" />
     <Compile Include="Assets\Player.cs" />
+    <Compile Include="Assets\Weapon.cs" />
+    <Compile Include="Assets\WeeponKeeper.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/ESB/Documents/JamHood/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
